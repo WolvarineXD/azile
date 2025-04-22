@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -12,14 +10,24 @@ const Footer = () => {
     });
   };
 
- useEffect(() => {
-    fetch('https://api.counterapi.dev/v1/india-digital-vision/hit')  
-      .then(res => res.json())
-      .then(data => {
-        console.log('Visitor count:', data);
-        setVisitorCount(data.count);
-      })
-      .catch(err => console.error('Error fetching visitor count:', err));
+  useEffect(() => {
+    // Load the FreeVisitorCounters auth script
+    const authScript = document.createElement('script');
+    authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=177354ed97282b0c94e7d2d8bd7dcc4847722b64';
+    authScript.async = true;
+    document.body.appendChild(authScript);
+
+    // Load the FreeVisitorCounters counter script
+    const counterScript = document.createElement('script');
+    counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1330372/t/10';
+    counterScript.async = true;
+    document.body.appendChild(counterScript);
+
+    // Cleanup scripts on component unmount
+    return () => {
+      document.body.removeChild(authScript);
+      document.body.removeChild(counterScript);
+    };
   }, []);
 
   return (
@@ -96,11 +104,12 @@ const Footer = () => {
             <div>
               <h3 className="text-xl font-bold text-white mb-4">Visitor Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-theme-gray p-4 rounded-lg">
-                  <div className="text-xl font-bold text-theme-orange">
-                    {visitorCount !== null ? visitorCount : '...'}
-                  </div>
-                  <p className="text-white/60 text-sm">Total Visitors</p>
+                {/* FreeVisitorCounters will inject the visitor count here */}
+                <div
+                  id="fv_counter_1330372"
+                  className="bg-theme-gray p-4 rounded-lg text-xl font-bold text-theme-orange"
+                >
+                  {/* Initially empty, counter script fills this */}
                 </div>
                 <div className="bg-theme-gray p-4 rounded-lg">
                   <div className="text-xl font-bold text-theme-orange">—</div>
