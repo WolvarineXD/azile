@@ -3,31 +3,23 @@ import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
-
   useEffect(() => {
-    // Load the FreeVisitorCounters auth script
-    const authScript = document.createElement('script');
-    authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=177354ed97282b0c94e7d2d8bd7dcc4847722b64';
-    authScript.async = true;
-    document.body.appendChild(authScript);
+    // Check if scripts are already added to avoid duplicates
+    if (!document.getElementById('fvc-auth-script')) {
+      const authScript = document.createElement('script');
+      authScript.id = 'fvc-auth-script';
+      authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=177354ed97282b0c94e7d2d8bd7dcc4847722b64';
+      authScript.async = true;
+      document.body.appendChild(authScript);
+    }
 
-    // Load the FreeVisitorCounters counter script
-    const counterScript = document.createElement('script');
-    counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1330372/t/10';
-    counterScript.async = true;
-    document.body.appendChild(counterScript);
-
-    // Cleanup scripts on component unmount
-    return () => {
-      document.body.removeChild(authScript);
-      document.body.removeChild(counterScript);
-    };
+    if (!document.getElementById('fvc-counter-script')) {
+      const counterScript = document.createElement('script');
+      counterScript.id = 'fvc-counter-script';
+      counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1330372/t/10';
+      counterScript.async = true;
+      document.body.appendChild(counterScript);
+    }
   }, []);
 
   return (
