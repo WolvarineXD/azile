@@ -14,11 +14,14 @@ const Footer = () => {
     });
   };
 
-  useEffect(() => {
-    fetch('https://api.counterapi.dev/v1/india-digital-vision/hit')
+ useEffect(() => {
+    fetch('https://api.counterapi.dev/v1/india-digital-vision/hit')  
       .then(res => res.json())
-      .then(data => setVisitorCount(data.count))
-      .catch(console.error);
+      .then(data => {
+        console.log('Visitor count:', data);
+        setVisitorCount(data.count);
+      })
+      .catch(err => console.error('Error fetching visitor count:', err));
   }, []);
 
   return (
