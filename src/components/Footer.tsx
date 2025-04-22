@@ -1,9 +1,12 @@
 
 import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react';
 
 const Footer = () => {
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -11,8 +14,15 @@ const Footer = () => {
     });
   };
 
+  useEffect(() => {
+    fetch('https://api.counterapi.dev/v1/india-digital-vision/hit')
+      .then(res => res.json())
+      .then(data => setVisitorCount(data.count))
+      .catch(console.error);
+  }, []);
+
   return (
-    <footer className="bg-theme-darkGray">           
+    <footer className="bg-theme-darkGray">
       {/* Main Footer */}
       <div className="py-8">
         <div className="container mx-auto px-6">
@@ -22,46 +32,45 @@ const Footer = () => {
               <p className="text-white/60">
                 Showcasing India's innovative digital public infrastructure and technologies that are transforming the nation.
               </p>
-              
               <div className="flex space-x-4 mt-6">
-  <a
-    href="https://www.facebook.com/"
-    aria-label="Visit our Facebook page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Facebook size={18} />
-  </a>
-  <a
-    href="https://x.com/i/flow/single_sign_on"
-    aria-label="Visit our Twitter page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Twitter size={18} />
-  </a>
-  <a
-    href="https://in.linkedin.com/"
-    aria-label="Visit our LinkedIn page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Linkedin size={18} />
-  </a>
-  <a
-    href="https://www.instagram.com/accounts/login/?hl=en"
-    aria-label="Visit our Instagram page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Instagram size={18} />
-  </a>
-  <a
-    href="https://www.youtube.com/@bcnishantreddy"
-    aria-label="Visit our YouTube channel"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Youtube size={18} />
-  </a>
-</div>
+                <a
+                  href="https://www.facebook.com/"
+                  aria-label="Visit our Facebook page"
+                  className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href="https://x.com/i/flow/single_sign_on"
+                  aria-label="Visit our Twitter page"
+                  className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
+                >
+                  <Twitter size={18} />
+                </a>
+                <a
+                  href="https://in.linkedin.com/"
+                  aria-label="Visit our LinkedIn page"
+                  className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
+                >
+                  <Linkedin size={18} />
+                </a>
+                <a
+                  href="https://www.instagram.com/accounts/login/?hl=en"
+                  aria-label="Visit our Instagram page"
+                  className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
+                >
+                  <Instagram size={18} />
+                </a>
+                <a
+                  href="https://www.youtube.com/@bcnishantreddy"
+                  aria-label="Visit our YouTube channel"
+                  className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
+                >
+                  <Youtube size={18} />
+                </a>
+              </div>
             </div>
-            
+
             <div>
               <h3 className="text-xl font-bold text-white mb-4">Quick Links</h3>
               <ul className="space-y-2">
@@ -82,22 +91,24 @@ const Footer = () => {
                 </li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-xl font-bold text-white mb-4">Visitor Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-theme-gray p-4 rounded-lg">
-                  <div className="text-xl font-bold text-theme-orange">20</div>
+                  <div className="text-xl font-bold text-theme-orange">
+                    {visitorCount !== null ? visitorCount : '...'}
+                  </div>
                   <p className="text-white/60 text-sm">Total Visitors</p>
                 </div>
                 <div className="bg-theme-gray p-4 rounded-lg">
-                  <div className="text-xl font-bold text-theme-orange">10</div>
+                  <div className="text-xl font-bold text-theme-orange">—</div>
                   <p className="text-white/60 text-sm">Today's Visitors</p>
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p className="text-white/60 text-sm">
               © 2024. India Digital Vision
@@ -116,7 +127,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Scroll to top button */}
       <button
         onClick={scrollToTop}
