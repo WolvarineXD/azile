@@ -2,7 +2,7 @@ name: Run React Tests and Deploy to Docker Hub
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ] 
   pull_request:
     branches: [ main ]
 
