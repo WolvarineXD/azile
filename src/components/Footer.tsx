@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube, ArrowUp } from 'lucide-react';
 
@@ -9,6 +9,38 @@ const Footer = () => {
       behavior: 'smooth'
     });
   };
+
+  useEffect(() => {
+    // Create script elements
+    const linkElement = document.createElement('a');
+    linkElement.href = 'https://www.free-counters.org/';
+    linkElement.textContent = 'Free-Counters.org';
+    
+    const authScript = document.createElement('script');
+    authScript.type = 'text/javascript';
+    authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=258f127bf9177845ff7f9df764c8a22d48658c0c';
+    
+    const counterScript = document.createElement('script');
+    counterScript.type = 'text/javascript';
+    counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1337625/t/11';
+    
+    // Find the container where we want to add these elements
+    const counterContainer = document.getElementById('visitorcounter');
+    
+    if (counterContainer) {
+      counterContainer.appendChild(linkElement);
+      counterContainer.appendChild(document.createTextNode(' ')); // Add space between elements
+      counterContainer.appendChild(authScript);
+      counterContainer.appendChild(counterScript);
+    }
+
+    return () => {
+      // Cleanup if needed
+      if (counterContainer) {
+        counterContainer.innerHTML = '';
+      }
+    };
+  }, []);
 
   return (
     <footer className="bg-theme-darkGray">           
@@ -23,42 +55,22 @@ const Footer = () => {
               </p>
               
               <div className="flex space-x-4 mt-6">
-  <a
-    href="https://www.facebook.com/"
-    aria-label="Visit our Facebook page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Facebook size={18} />
-  </a>
-  <a
-    href="https://x.com/i/flow/single_sign_on"
-    aria-label="Visit our Twitter page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Twitter size={18} />
-  </a>
-  <a
-    href="https://in.linkedin.com/"
-    aria-label="Visit our LinkedIn page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Linkedin size={18} />
-  </a>
-  <a
-    href="https://www.instagram.com/accounts/login/?hl=en"
-    aria-label="Visit our Instagram page"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Instagram size={18} />
-  </a>
-  <a
-    href="https://www.youtube.com/@bcnishantreddy"
-    aria-label="Visit our YouTube channel"
-    className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors"
-  >
-    <Youtube size={18} />
-  </a>
-</div>
+                <a href="#" className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors">
+                  <Facebook size={18} />
+                </a>
+                <a href="#" className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors">
+                  <Twitter size={18} />
+                </a>
+                <a href="#" className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors">
+                  <Linkedin size={18} />
+                </a>
+                <a href="#" className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors">
+                  <Instagram size={18} />
+                </a>
+                <a href="#" className="bg-theme-gray hover:bg-theme-orange text-white p-2 rounded-full transition-colors">
+                  <Youtube size={18} />
+                </a>
+              </div>
             </div>
             
             <div>
@@ -83,15 +95,19 @@ const Footer = () => {
             </div>
             
             <div>
-              <h3 className="text-xl font-bold text-white mb-4">Agile Project</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Visitors Stats</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-theme-gray p-4 rounded-lg">
-                  <div className="text-xl font-bold text-theme-orange"></div>
-                  <p className="text-white/60 text-sm"></p>
+                  <div className="text-xl font-bold text-theme-orange">Total Visitors</div>
+                  <div id="visitorcounter" className="text-white/60 text-sm">
+                    {/* The counter will be injected here by the script */}
+                  </div>
                 </div>
                 <div className="bg-theme-gray p-4 rounded-lg">
-                  <div className="text-xl font-bold text-theme-orange"></div>
-                  <p className="text-white/60 text-sm"></p>
+                  <div className="text-xl font-bold text-theme-orange">Today Visitors</div>
+                  <div className="text-white/60 text-sm">
+                    <span id="freevisitorcounter_today"></span>
+                  </div>
                 </div>
               </div>
             </div>
